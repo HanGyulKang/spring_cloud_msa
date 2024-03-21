@@ -12,14 +12,20 @@ spring:
   application:
     name: apigateway-service
 ## -- java code로 이관
-#  cloud:
-#    gateway:
-#      routes:
-#        - id: first-service
-#          uri: http://127.0.0.1:8081/
-#          predicates:
-#            - Path=/first-service/**
-#        - id: second-service
-#          uri: http://127.0.0.1:8082/
-#          predicates:
-#            - Path=/second-service/**
+  cloud:
+    gateway:
+      routes:
+        - id: first-service
+          uri: http://127.0.0.1:8081/
+          predicates:
+            - Path=/first-service/**
+          filters:
+            - AddRequestHeader=first-request, first-requests-header2
+            - AddResponseHeader=first-Response, first-Response-header2
+        - id: second-service
+          uri: http://127.0.0.1:8082/
+          predicates:
+            - Path=/second-service/**
+          filters:
+            - AddRequestHeader=second-request, second-requests-header2
+            - AddResponseHeader=second-Response, second-Response-header2
