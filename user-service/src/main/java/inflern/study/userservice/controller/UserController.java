@@ -1,9 +1,14 @@
 package inflern.study.userservice.controller;
 
-import inflern.study.userservice.dto.ConfigMessageDto;
+import inflern.study.userservice.dto.RequestDto;
+import inflern.study.userservice.dto.ResponseDto;
+import inflern.study.userservice.dto.UserDto;
+import inflern.study.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,15 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class UserController {
 
-    private final ConfigMessageDto configMessage;
+    private final UserService userService;
 
-    @GetMapping("/health_check")
-    public String healthCheck() {
-        return "Healthy!";
-    }
+    @PostMapping("/users")
+    public ResponseEntity<ResponseDto.CreateUserDto> createUser(@RequestBody RequestDto.CreateUserDto request) {
+        ResponseDto.CreateUserDto response = this.userService.createUser(
+                UserDto.CreateUserDto.from(request)
+        );
 
-    @GetMapping("/welcome")
-    public String welcome() {
-        return configMessage.getGreeting();
+        return ResponseEntity.ok(response);
     }
 }

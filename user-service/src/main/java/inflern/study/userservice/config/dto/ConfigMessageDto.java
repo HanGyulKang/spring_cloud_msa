@@ -1,4 +1,4 @@
-package inflern.study.userservice.dto;
+package inflern.study.userservice.config.dto;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
