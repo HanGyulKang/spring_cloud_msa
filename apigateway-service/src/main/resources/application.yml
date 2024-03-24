@@ -25,10 +25,15 @@ spring:
           predicates:
             - Path=/first-service/**
           filters:
-            - CustomFilter
+            - name: CustomFilter
         - id: second-service
           uri: http://127.0.0.1:8082/
           predicates:
             - Path=/second-service/**
           filters:
-            - CustomFilter
+            - name: CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: Logging message
+                preLogger: true
+                postLogger: true
