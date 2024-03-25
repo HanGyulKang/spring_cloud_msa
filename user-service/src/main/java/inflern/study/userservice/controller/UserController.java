@@ -6,6 +6,7 @@ import inflern.study.userservice.dto.UserDto;
 import inflern.study.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,11 +22,11 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public ResponseEntity<ResponseDto.CreateUserDto> createUser(@RequestBody RequestDto.CreateUserDto request) {
-        ResponseDto.CreateUserDto response = this.userService.createUser(
+    public ResponseEntity<ResponseDto.ResponseUserDto> createUser(@RequestBody RequestDto.CreateUserDto request) {
+        ResponseDto.ResponseUserDto response = this.userService.createUser(
                 UserDto.CreateUserDto.from(request)
         );
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

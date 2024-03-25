@@ -9,6 +9,8 @@ import inflern.study.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -17,10 +19,19 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public ResponseDto.CreateUserDto createUser(UserDto.CreateUserDto dto) {
-        User user = this.userMapper.mapToUserEntity(dto);
-        User saved = this.userRepository.save(user);
+    public ResponseDto.ResponseUserDto createUser(UserDto.CreateUserDto dto) {
+        Optional<User> userByEmail = this.userRepository.findUserByEmail(dto.getEmail());
+        if (userByEmail.isPresent()) {
+            throw new IllegalArgumentException("already used email");
+        }
 
-        return new ResponseDto.CreateUserDto(saved.getName(), saved.getEmail());
+        User user = this.userMapper.mapToUserEntity(dto);
+        this.userRepository.save(user);
+
+        return ResponseDto.ResponseUserDto.builder()
+                .userId(user.getUserId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .build();
     }
 }
