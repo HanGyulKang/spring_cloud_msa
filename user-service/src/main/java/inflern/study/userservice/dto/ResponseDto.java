@@ -1,17 +1,16 @@
 package inflern.study.userservice.dto;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResponseDto {
 
-    @RequiredArgsConstructor
+    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+    @Builder
     @Getter
-    public static class CreateUserDto {
+    public static class ResponseUserDto {
         private final String name;
         private final String email;
+        private final String userId;
     }
 }
