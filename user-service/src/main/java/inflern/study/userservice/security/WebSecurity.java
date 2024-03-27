@@ -37,6 +37,7 @@ public class WebSecurity {
         http.authorizeHttpRequests((authz) -> authz
                 .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/user-service/users/**", "POST")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/user-service/**", "GET")).permitAll()
                 .requestMatchers("/**").access(
                         new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('172.30.1.48')"))
                 .anyRequest().authenticated());
