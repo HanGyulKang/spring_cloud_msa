@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@RequestMapping("")
+@RequestMapping("/user-service")
 @RestController
 public class UserServiceApplication {
 
