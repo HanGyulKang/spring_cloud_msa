@@ -13,14 +13,14 @@ public class ResponseDto {
     @Builder
     @Getter
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class UserResponseDto {
+    public static class ResponseUserDto {
         private final UserVo.UserItem user;
     }
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder
     @Getter
-    public static class UsersResponseDto {
+    public static class ResponseUsersDto {
         private final List<UserVo.UserItem> users;
     }
 }

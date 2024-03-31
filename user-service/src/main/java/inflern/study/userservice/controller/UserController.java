@@ -19,8 +19,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/users")
-    public ResponseEntity<ResponseDto.UserResponseDto> createUser(@RequestBody RequestDto.CreateUserDto request) {
-        ResponseDto.UserResponseDto response = this.userService.createUser(
+    public ResponseEntity<ResponseDto.ResponseUserDto> createUser(@RequestBody RequestDto.CreateUserDto request) {
+        ResponseDto.ResponseUserDto response = this.userService.createUser(
                 UserVo.CreateUserItem.from(request)
         );
 
@@ -28,14 +28,14 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<ResponseDto.UsersResponseDto> getUsers() {
-        ResponseDto.UsersResponseDto response = this.userService.getUserByAll();
+    public ResponseEntity<ResponseDto.ResponseUsersDto> getUsers() {
+        ResponseDto.ResponseUsersDto response = this.userService.getUserByAll();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<ResponseDto.UserResponseDto> getUser(@PathVariable(name = "userId") String userId) {
-        ResponseDto.UserResponseDto response = this.userService.getUserByUserId(userId);
+    public ResponseEntity<ResponseDto.ResponseUserDto> getUser(@PathVariable(name = "userId") String userId) {
+        ResponseDto.ResponseUserDto response = this.userService.getUserByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

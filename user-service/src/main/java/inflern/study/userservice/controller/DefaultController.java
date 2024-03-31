@@ -17,7 +17,7 @@ public class DefaultController {
 
     @GetMapping("/health_check")
     public String healthCheck() {
-        return String.format("Healthy! on PORT %s", env.getProperty("local.server.port"));
+        return String.format("USER-SERVICE :: Healthy! on PORT %s", env.getProperty("local.server.port"));
     }
 
     @GetMapping("/welcome")
