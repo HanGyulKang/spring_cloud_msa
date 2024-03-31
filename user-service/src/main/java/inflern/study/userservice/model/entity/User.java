@@ -1,4 +1,4 @@
-package inflern.study.userservice.model;
+package inflern.study.userservice.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
