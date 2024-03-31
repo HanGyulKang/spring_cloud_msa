@@ -11,14 +11,14 @@ public class ResponseDto {
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder
     @Getter
-    public static class CatalogResponseDto {
+    public static class ResponseCatalogDto {
         private final CatalogVo.CatalogItem catalog;
     }
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder
     @Getter
-    public static class CatalogsResponseDto {
+    public static class ResponseCatalogsDto {
         private final List<CatalogVo.CatalogItem> catalogs;
     }
 }

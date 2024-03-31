@@ -4,7 +4,7 @@ import inflern.study.userservice.dto.ResponseDto;
 import inflern.study.userservice.dto.vo.UserVo;
 
 public interface UserService {
-    ResponseDto.UserResponseDto createUser(UserVo.CreateUserItem createUserDto);
-    ResponseDto.UserResponseDto getUserByUserId(String userId);
-    ResponseDto.UsersResponseDto getUserByAll();
+    ResponseDto.ResponseUserDto createUser(UserVo.CreateUserItem createUserDto);
+    ResponseDto.ResponseUserDto getUserByUserId(String userId);
+    ResponseDto.ResponseUsersDto getUserByAll();
 }

@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public ResponseDto.UserResponseDto createUser(UserVo.CreateUserItem dto) {
+    public ResponseDto.ResponseUserDto createUser(UserVo.CreateUserItem dto) {
         Optional<User> userByEmail = this.userRepository.findUserByEmail(dto.getEmail());
         if (userByEmail.isPresent()) {
             throw new IllegalArgumentException("already used email");
@@ -31,31 +31,31 @@ public class UserServiceImpl implements UserService {
         User save = this.userRepository.save(user);
         UserVo.UserItem userItem = this.userMapper.userEntityToMap(save);
 
-        return ResponseDto.UserResponseDto.builder()
+        return ResponseDto.ResponseUserDto.builder()
                 .user(userItem)
                 .build();
     }
 
     @Override
-    public ResponseDto.UserResponseDto getUserByUserId(String userId) {
+    public ResponseDto.ResponseUserDto getUserByUserId(String userId) {
         User user = this.userRepository.findByUserId(userId)
                 .orElseThrow(EntityNotFoundException::new);
 
         UserVo.UserItem userItem = this.userMapper.userEntityToMap(user);
 
-        return ResponseDto.UserResponseDto.builder()
+        return ResponseDto.ResponseUserDto.builder()
                 .user(userItem)
                 .build();
     }
 
     @Override
-    public ResponseDto.UsersResponseDto getUserByAll() {
+    public ResponseDto.ResponseUsersDto getUserByAll() {
         List<UserVo.UserItem> users = this.userRepository.findAll()
                 .stream()
                 .map(userMapper::userEntityToMap)
                 .toList();
 
-        return ResponseDto.UsersResponseDto.builder()
+        return ResponseDto.ResponseUsersDto.builder()
                 .users(users)
                 .build();
     }
