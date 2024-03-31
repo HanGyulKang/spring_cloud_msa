@@ -1,8 +1,11 @@
-package inflern.study.userservice.dto;
+package inflern.study.userservice.vo;
 
+import inflern.study.userservice.dto.RequestDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserDto {
@@ -24,12 +27,15 @@ public class UserDto {
         }
     }
 
-    @RequiredArgsConstructor
+    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+    @Builder
     @Getter
     public static class UserItem {
         private final String userId;
         private final String email;
         private final String name;
         private final LocalDateTime createAt;
+
+        private final List<OrderDto.OrderItem> orders = new ArrayList<>();
     }
 }

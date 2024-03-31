@@ -1,6 +1,6 @@
 package inflern.study.userservice.model.mapper;
 
-import inflern.study.userservice.dto.UserDto;
+import inflern.study.userservice.vo.UserDto;
 import inflern.study.userservice.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,5 +17,14 @@ public class UserMapper {
                 dto.getEmail(),
                 dto.getName(),
                 passwordEncoder.encode(dto.getPwd()));
+    }
+
+    public UserDto.UserItem entityToUserItem(User user) {
+        return UserDto.UserItem.builder()
+                .userId(user.getUserId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .createAt(user.getCreateAt())
+                .build();
     }
 }
