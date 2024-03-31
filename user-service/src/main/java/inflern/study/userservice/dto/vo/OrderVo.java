@@ -1,11 +1,11 @@
-package inflern.study.userservice.vo;
+package inflern.study.userservice.dto.vo;
 
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OrderDto {
+public class OrderVo {
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder

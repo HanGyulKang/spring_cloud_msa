@@ -1,4 +1,4 @@
-package inflern.study.userservice.vo;
+package inflern.study.userservice.dto.vo;
 
 import inflern.study.userservice.dto.RequestDto;
 import lombok.*;
@@ -8,18 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserDto {
+public class UserVo {
 
     @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder
     @Getter
-    public static class CreateUserDto {
+    public static class CreateUserItem {
         private final String email;
         private final String name;
         private final String pwd;
 
-        public static CreateUserDto from(RequestDto.CreateUserDto dto) {
-            return CreateUserDto.builder()
+        public static CreateUserItem from(RequestDto.CreateUserDto dto) {
+            return CreateUserItem.builder()
                     .email(dto.getEmail())
                     .name(dto.getName())
                     .pwd(dto.getPwd())
@@ -36,6 +36,6 @@ public class UserDto {
         private final String name;
         private final LocalDateTime createAt;
 
-        private final List<OrderDto.OrderItem> orders = new ArrayList<>();
+        private final List<OrderVo.OrderItem> orders = new ArrayList<>();
     }
 }

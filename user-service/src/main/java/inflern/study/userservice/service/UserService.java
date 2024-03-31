@@ -1,10 +1,10 @@
 package inflern.study.userservice.service;
 
 import inflern.study.userservice.dto.ResponseDto;
-import inflern.study.userservice.vo.UserDto;
+import inflern.study.userservice.dto.vo.UserVo;
 
 public interface UserService {
-    ResponseDto.ResponseUserDto createUser(UserDto.CreateUserDto createUserDto);
-    ResponseDto.ResponseUserDto getUserByUserId(String userId);
-    ResponseDto.ResponseUsersDto getUserByAll();
+    ResponseDto.UserResponseDto createUser(UserVo.CreateUserItem createUserDto);
+    ResponseDto.UserResponseDto getUserByUserId(String userId);
+    ResponseDto.UsersResponseDto getUserByAll();
 }

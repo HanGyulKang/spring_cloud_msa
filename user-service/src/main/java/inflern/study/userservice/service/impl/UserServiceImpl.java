@@ -1,8 +1,8 @@
 package inflern.study.userservice.service.impl;
 
 import inflern.study.userservice.dto.ResponseDto;
-import inflern.study.userservice.vo.UserDto;
-import inflern.study.userservice.model.User;
+import inflern.study.userservice.dto.vo.UserVo;
+import inflern.study.userservice.model.entity.User;
 import inflern.study.userservice.model.mapper.UserMapper;
 import inflern.study.userservice.repository.UserRepository;
 import inflern.study.userservice.service.UserService;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public ResponseDto.ResponseUserDto createUser(UserDto.CreateUserDto dto) {
+    public ResponseDto.UserResponseDto createUser(UserVo.CreateUserItem dto) {
         Optional<User> userByEmail = this.userRepository.findUserByEmail(dto.getEmail());
         if (userByEmail.isPresent()) {
             throw new IllegalArgumentException("already used email");
@@ -29,33 +29,33 @@ public class UserServiceImpl implements UserService {
 
         User user = this.userMapper.mapToUserEntity(dto);
         User save = this.userRepository.save(user);
-        UserDto.UserItem userItem = this.userMapper.entityToUserItem(save);
+        UserVo.UserItem userItem = this.userMapper.userEntityToMap(save);
 
-        return ResponseDto.ResponseUserDto.builder()
+        return ResponseDto.UserResponseDto.builder()
                 .user(userItem)
                 .build();
     }
 
     @Override
-    public ResponseDto.ResponseUserDto getUserByUserId(String userId) {
+    public ResponseDto.UserResponseDto getUserByUserId(String userId) {
         User user = this.userRepository.findByUserId(userId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        UserDto.UserItem userItem = this.userMapper.entityToUserItem(user);
+        UserVo.UserItem userItem = this.userMapper.userEntityToMap(user);
 
-        return ResponseDto.ResponseUserDto.builder()
+        return ResponseDto.UserResponseDto.builder()
                 .user(userItem)
                 .build();
     }
 
     @Override
-    public ResponseDto.ResponseUsersDto getUserByAll() {
-        List<UserDto.UserItem> users = this.userRepository.findAll()
+    public ResponseDto.UsersResponseDto getUserByAll() {
+        List<UserVo.UserItem> users = this.userRepository.findAll()
                 .stream()
-                .map(userMapper::entityToUserItem)
+                .map(userMapper::userEntityToMap)
                 .toList();
 
-        return ResponseDto.ResponseUsersDto.builder()
+        return ResponseDto.UsersResponseDto.builder()
                 .users(users)
                 .build();
     }

@@ -1,6 +1,6 @@
 package inflern.study.userservice.repository;
 
-import inflern.study.userservice.model.User;
+import inflern.study.userservice.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
