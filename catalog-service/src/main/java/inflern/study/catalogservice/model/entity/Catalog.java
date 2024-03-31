@@ -27,6 +27,9 @@ public class Catalog implements Serializable {
     @Column(name = "stock", nullable = false)
     private Integer stock;
 
+    @Column(name = "unit_price", nullable = false)
+    private Integer unitPrice;
+
     @Column(name = "created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
