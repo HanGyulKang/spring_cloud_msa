@@ -13,7 +13,7 @@ eureka:
 
 spring:
   application:
-    name: catalog-service
+    name: order-service
   datasource:
     url: jdbc:mysql://localhost:3306/msa?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: gang6607
@@ -24,7 +24,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
