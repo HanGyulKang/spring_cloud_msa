@@ -56,8 +56,8 @@ public class OrderController {
 
     @GetMapping("/orders/{orderId}")
     public ResponseEntity<ResponseOrder> getOrder(@PathVariable(name = "orderId") String orderId) {
-        OrderDto orderDto = orderService.getOrderByOrderId(orderId);
-        ResponseOrder response = new ModelMapper().map(orderDto, ResponseOrder.class);
+        Order order = orderService.getOrderByOrderId(orderId);
+        ResponseOrder response = new ModelMapper().map(order, ResponseOrder.class);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

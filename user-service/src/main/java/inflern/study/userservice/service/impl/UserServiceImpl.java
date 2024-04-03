@@ -9,6 +9,7 @@ import inflern.study.userservice.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
+    @Transactional
     public ResponseDto.ResponseUserDto createUser(UserVo.CreateUserItem dto) {
         Optional<User> userByEmail = this.userRepository.findUserByEmail(dto.getEmail());
         if (userByEmail.isPresent()) {
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDto.ResponseUserDto getUserByUserId(String userId) {
         User user = this.userRepository.findByUserId(userId)
                 .orElseThrow(EntityNotFoundException::new);
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDto.ResponseUsersDto getUserByAll() {
         List<UserVo.UserItem> users = this.userRepository.findAll()
                 .stream()

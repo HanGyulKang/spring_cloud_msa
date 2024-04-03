@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -17,6 +19,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
     @Override
+    @Transactional
     public OrderDto createOrder(OrderDto dto) {
         dto.setOrderId(UUID.randomUUID().toString());
         dto.setTotalPrice(dto.getQuantity() * dto.getUnitPrice());
@@ -24,18 +27,20 @@ public class OrderServiceImpl implements OrderService {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Order order = mapper.map(dto, Order.class);
+        order.setCreatedAt(LocalDateTime.now());
 
         orderRepository.save(order);
         return mapper.map(order, OrderDto.class);
     }
 
     @Override
-    public OrderDto getOrderByOrderId(String orderId) {
-        Order order = orderRepository.findByOrderId(orderId);
-        return new ModelMapper().map(order, OrderDto.class);
+    @Transactional(readOnly = true)
+    public Order getOrderByOrderId(String orderId) {
+        return orderRepository.findByOrderId(orderId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Iterable<Order> getOrdersByUserId(String userId) {
         return orderRepository.findByUserId(userId);
     }
