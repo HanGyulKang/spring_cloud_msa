@@ -20,7 +20,7 @@ public class CatalogServiceApplication {
 		SpringApplication.run(CatalogServiceApplication.class, args);
 	}
 
-	@GetMapping("/health")
+	@GetMapping("/health_check")
 	public String healthCheck() {
 		return String.format("CATALOG-SERVICE :: Healthy! on PORT %s", env.getProperty("local.server.port"));
 	}
