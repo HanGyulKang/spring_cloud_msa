@@ -7,6 +7,7 @@ import inflern.study.catalogservice.repository.CatalogRepository;
 import inflern.study.catalogservice.service.CatalogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class CatalogServiceImpl implements CatalogService {
     private final CatalogMapper catalogMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDto.ResponseCatalogsDto getAllCatalogs() {
         List<CatalogVo.CatalogItem> catalogItems = this.catalogRepository.findAll()
                 .stream()
