@@ -8,11 +8,13 @@ import inflern.study.userservice.repository.UserRepository;
 import inflern.study.userservice.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +26,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseDto.ResponseUserDto createUser(UserVo.CreateUserItem dto) {
-        Optional<User> userByEmail = this.userRepository.findUserByEmail(dto.getEmail());
-        if (userByEmail.isPresent()) {
-            throw new IllegalArgumentException("already used email");
-        }
+        this.userRepository.findByEmail(dto.getEmail())
+                .ifPresent((user) -> {
+                    throw new IllegalArgumentException("already used email");
+                });
 
         User user = this.userMapper.mapToUserEntity(dto);
         User save = this.userRepository.save(user);
@@ -56,11 +58,28 @@ public class UserServiceImpl implements UserService {
     public ResponseDto.ResponseUsersDto getUserByAll() {
         List<UserVo.UserItem> users = this.userRepository.findAll()
                 .stream()
-                .map(userMapper::userEntityToMap)
+                .map(this.userMapper::userEntityToMap)
                 .toList();
 
         return ResponseDto.ResponseUsersDto.builder()
                 .users(users)
                 .build();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        final String email = username;
+
+        User user = this.userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(), user.getEncryptedPwd(),
+                true,
+                true,
+                true,
+                true,
+                new ArrayList<>()
+        );
     }
 }
