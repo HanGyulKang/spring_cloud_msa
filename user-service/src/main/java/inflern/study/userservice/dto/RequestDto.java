@@ -25,4 +25,17 @@ public class RequestDto {
         @Size(min = 8, message = "Password must be equal or greater than 8 characters")
         private String pwd;
     }
+
+    @NoArgsConstructor
+    @Getter
+    public static class LoginDto {
+        @NotBlank(message = "email cannot be null")
+        @Size(min = 2, message = "Email not be less than two characters")
+        @Email
+        private String email;
+
+        @NotBlank(message = "pwd cannot be empty")
+        @Size(min = 8, message = "Password must be equal or greater than 8 characters")
+        private String pwd;
+    }
 }
