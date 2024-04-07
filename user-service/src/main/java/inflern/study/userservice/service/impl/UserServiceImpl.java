@@ -67,6 +67,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public ResponseDto.ResponseUserDto getUserDetailsByEmail(String email) {
+        User user = this.userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+
+        UserVo.UserItem userItem = this.userMapper.userEntityToMap(user);
+        return ResponseDto.ResponseUserDto.builder()
+                .user(userItem)
+                .build();
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         final String email = username;
 
