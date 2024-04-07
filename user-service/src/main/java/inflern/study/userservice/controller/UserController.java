@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/user-service")
+// gateway 에서 RewritePath 로 user-servce를 Path에서 제거하고 포워딩해주기 때문에 제거하게 됨
+//@RequestMapping("/user-service")
 public class UserController {
 
     private final UserService userService;
