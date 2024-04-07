@@ -8,4 +8,5 @@ public interface UserService extends UserDetailsService {
     ResponseDto.ResponseUserDto createUser(UserVo.CreateUserItem createUserDto);
     ResponseDto.ResponseUserDto getUserByUserId(String userId);
     ResponseDto.ResponseUsersDto getUserByAll();
+    ResponseDto.ResponseUserDto getUserDetailsByEmail(String email);
 }
