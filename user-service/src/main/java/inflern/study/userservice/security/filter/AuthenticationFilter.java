@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import inflern.study.userservice.dto.RequestDto;
 import inflern.study.userservice.dto.vo.UserVo;
 import inflern.study.userservice.service.UserService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,8 +19,12 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.security.Key;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Objects;
 
 @Slf4j
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -55,5 +61,18 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String email = ((User) auth.getPrincipal()).getUsername();
         UserVo.UserItem userDetails = this.userService.getUserDetailsByEmail(email).getUser();
 
+        long expirationTime = Long.parseLong(Objects.requireNonNull(env.getProperty("token.expiration.time.ms")));
+        String secret = env.getProperty("token.secret");
+
+        assert secret != null;
+        Key key = new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS512.getJcaName());
+        String token = Jwts.builder()
+                .setSubject(userDetails.getUserId())
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+
+        res.addHeader("token", token);
+        res.addHeader("userId", userDetails.getUserId());
     }
 }
