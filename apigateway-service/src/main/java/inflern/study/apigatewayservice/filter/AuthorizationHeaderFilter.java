@@ -62,6 +62,8 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     }
 
     private boolean isJwtValid(String jwt) {
+        boolean result = true;
+
         try {
             String secret = env.getProperty("token.secret");
 
@@ -78,12 +80,12 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
                     .getSubject();
 
             if (!StringUtils.hasText(subject)) {
-                return false;
+                result = false;
             }
         } catch (Exception e) {
-            return false;
+            result = false;
         }
 
-        return true;
+        return result;
     }
 }
