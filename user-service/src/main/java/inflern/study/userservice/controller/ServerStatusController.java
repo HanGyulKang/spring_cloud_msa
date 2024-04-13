@@ -8,14 +8,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class DefaultController {
+public class ServerStatusController {
 
     private final ConfigMessageDto configMessage;
     private final Environment env;
 
     @GetMapping("/health_check")
     public String healthCheck() {
-        return String.format("USER-SERVICE :: Healthy! on PORT %s", env.getProperty("local.server.port"));
+        return String.format("USER-SERVICE :: Healthy! on LOCAL PORT=" + env.getProperty("local.server.port")
+                           + "\n:: server.port=" + env.getProperty("server.port")
+                           + "\n:: token secret=" + env.getProperty("token.secret")
+                           + "\n:: token expiration time=" + env.getProperty("token.expiration_time")
+        );
     }
 
     @GetMapping("/welcome")

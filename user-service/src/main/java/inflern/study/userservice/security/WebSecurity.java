@@ -46,10 +46,13 @@ public class WebSecurity {
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
 
         http.csrf(AbstractHttpConfigurer::disable);
+
         http.authorizeHttpRequests((authz) -> authz
                         .requestMatchers(new AntPathRequestMatcher("/health_check")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll()
-                        .requestMatchers(new AntPathRequestMatcher("/users/**", "GET")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
+
+                        .requestMatchers(new AntPathRequestMatcher("/users", "POST")).authenticated()
+                        .requestMatchers(new AntPathRequestMatcher("/users/**", "GET")).authenticated()
                         .requestMatchers("/**").access(
                                 new WebExpressionAuthorizationManager("hasIpAddress('127.0.0.1') or hasIpAddress('172.30.1.48')"))
                         .anyRequest().authenticated()
@@ -63,7 +66,6 @@ public class WebSecurity {
         http.headers((headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)));
         return http.build();
     }
-
 
     private AuthorizationDecision hasIpAddress(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
         return new AuthorizationDecision(ALLOWED_IP_ADDRESS_MATCHER.matches(object.getRequest()));
