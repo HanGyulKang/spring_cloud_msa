@@ -42,26 +42,38 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET, POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
             - Path=/user-service/**
             - Method=GET
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - name: AuthorizationHeaderFilter
+
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
             - Path=/catalog-service/**
+
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**
+
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
           predicates:
             - Path=/first-service/**
           filters:
             - name: CustomFilter
+
         - id: second-service
           uri: lb://MY-SECOND-SERVICE
           predicates:
@@ -74,5 +86,9 @@ spring:
                 preLogger: true
                 postLogger: true
 
-token:
-  secret: 2cadded2582bbb92b7b6f9e56b66626481135cd1bfb20540a9afcdd7decde3881a611d1b8b7d0c883c1354b83a734b846cd1e2bafafcdb65b25d112708939747
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, httpexchanges
+        # httpexchanges : spring boot 3버전 Http trace

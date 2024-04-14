@@ -61,7 +61,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String email = ((User) auth.getPrincipal()).getUsername();
         UserVo.UserItem userDetails = this.userService.getUserDetailsByEmail(email).getUser();
 
-        long expirationTime = Long.parseLong(Objects.requireNonNull(env.getProperty("token.expiration.time.ms")));
+        long expirationTime = Long.parseLong(Objects.requireNonNull(env.getProperty("token.expiration_time")));
         String secret = env.getProperty("token.secret");
 
         assert secret != null;
