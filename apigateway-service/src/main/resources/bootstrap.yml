@@ -1,0 +1,12 @@
+# configration 정보가 변경되었을 때 어떻게 대처해야하나?
+## 서버 재가동             :: 큰 의미가 없음. 지양되어야 함
+## Actuator refresh     :: 기능을 통해서 서비스 재부팅 없이 변경된 정보를 가져옴
+### - Application 상태, 모니터링
+### - Metrics 수집을 위한 여러가지 Http-End-Point 를 제공해 줌
+## Spring cloud bus 사용 :: Actuator 보다 효울적임
+
+spring:
+  cloud:
+    config:
+      uri: http://127.0.0.1:8888
+      name: ecommerce
