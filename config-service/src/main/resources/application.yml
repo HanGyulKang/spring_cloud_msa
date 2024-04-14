@@ -8,4 +8,4 @@ spring:
     config:
       server:
         git:
-          uri: file:///Users/kanghangyul/study/spring_cloud_msa/ecommerce-config
+          uri: file:///Users/kanghangyul/study/config/spring_cloud_msa
