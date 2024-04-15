@@ -8,4 +8,4 @@ spring:
     config:
       server:
         git:
-          uri: file:///Users/kanghangyul/study/config/spring_cloud_msa
+          uri: https://github.com/HanGyulKang/spring-cloud-config
