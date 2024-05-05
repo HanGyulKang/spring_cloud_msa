@@ -1,5 +1,6 @@
 package inflern.study.apigatewayservice.filter;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +19,11 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
         super(Config.class);
     }
 
-    @RequiredArgsConstructor
-    @Getter
+    @Data
     public static class Config {
-        private final String baseMessage;
-        private final boolean preLogger;
-        private final boolean postLogger;
+        private String baseMessage;
+        private boolean preLogger;
+        private boolean postLogger;
     }
 
     @Override
