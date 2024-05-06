@@ -7,8 +7,8 @@ spring:
   rabbitmq:
     host: 127.0.0.1
     port: 5672 # web 에서 접근할 떄는 15672 포트를 사용하지만, 어플리케이션에서 접근할 때는 5672 포트를 사용해야 한다.
-    username: guest
-    password: guest
+    username: gang6607
+    password: gang6607
   profiles:
     active: git
   cloud:
