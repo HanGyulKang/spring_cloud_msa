@@ -14,6 +14,11 @@ eureka:
 spring:
   application:
     name: gateway-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672 # web 에서 접근할 떄는 15672 포트를 사용하지만, 어플리케이션에서 접근할 때는 5672 포트를 사용해야 한다.
+    username: guest
+    password: guest
   cloud:
     gateway:
       default-filters:
@@ -90,5 +95,6 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans, httpexchanges
+        include: refresh, health, beans, httpexchanges, busrefresh
         # httpexchanges : spring boot 3버전 Http trace
+        # busrefresh : 메시지 브로커를 사용해서 설정파일 리프래시 할 용도

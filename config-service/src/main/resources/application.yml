@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: config-service
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672 # web 에서 접근할 떄는 15672 포트를 사용하지만, 어플리케이션에서 접근할 때는 5672 포트를 사용해야 한다.
+    username: guest
+    password: guest
   profiles:
     active: git
   cloud:
@@ -13,3 +18,10 @@ spring:
           search-locations: file://${user.home}/study/config_native/spring_cloud_msa
         git:
           uri: https://github.com/HanGyulKang/spring-cloud-config
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, busrefresh

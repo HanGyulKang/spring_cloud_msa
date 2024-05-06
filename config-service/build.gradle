@@ -25,7 +25,10 @@ dependencies {
 
 	// AMQP
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-cloud-starter-bus-amqp'
+	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+
+	// Bootstrap
+	implementation 'org.springframework.cloud:spring-cloud-start--bootstrap'
 }
 
 dependencyManagement {

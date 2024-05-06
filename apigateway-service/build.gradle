@@ -47,7 +47,7 @@ dependencies {
 	// [end]   ==================== Spring cloud config
 
 	// AMQP
-	implementation 'org.springframework.boot:spring-cloud-starter-bus-amqp'
+	implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
 
 	// [start] ====================
 	// [end]   ====================
