@@ -19,13 +19,6 @@ spring:
     port: 5672 # web 에서 접근할 떄는 15672 포트를 사용하지만, 어플리케이션에서 접근할 때는 5672 포트를 사용해야 한다.
     username: gang6607
     password: gang6607
-  datasource:
-    url: jdbc:mysql://localhost:3306/msa?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: gang6607
-    password: 1111
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      connection-init-sql: SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
