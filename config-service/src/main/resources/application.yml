@@ -10,15 +10,16 @@ spring:
     username: gang6607
     password: gang6607
   profiles:
-    active: git
+    active: native
   cloud:
     config:
       server:
         native:
-          search-locations: file://${user.home}/study/config_native/spring_cloud_msa # mac
-#          search-locations: file:///C:\\study\\config_native\\spring_cloud_msa # window
+#          search-locations: file://${user.home}/study/config_native/spring_cloud_msa # mac
+          search-locations: file:///C:\\study\\spring-cloud-config # window
         git:
           uri: https://github.com/HanGyulKang/spring-cloud-config
+      enabled: true
 
 # Actuator
 management:
