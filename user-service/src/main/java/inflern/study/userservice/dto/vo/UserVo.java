@@ -36,6 +36,6 @@ public class UserVo {
         private final String name;
         private final LocalDateTime createAt;
 
-        private final List<OrderVo.OrderItem> orders = new ArrayList<>();
+        private final List<OrderVo.OrderItem> orders;
     }
 }
