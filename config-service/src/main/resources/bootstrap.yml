@@ -2,7 +2,7 @@ encrypt:
 #  key: a170047c0b4d44f6ba489851cd1402a8f8161f12f19a45b399954b0085c78f73554cebf737ed4059ba64cfa6a6c6d9ce
   # RSA 키 적용
   key-store:
-    location: file://${user.home}/study/spring_cloud_msa_keystore/apiEncryptionKey.jks # mac
-    # location: file:///C:\\study\\spring-cloud-config # window
+#    location: file://${user.home}/study/spring_cloud_msa_keystore/apiEncryptionKey.jks # mac
+    location: file:///C:\\study\\key_store # window
     password: test1234
     alias: apiEncryptionKey

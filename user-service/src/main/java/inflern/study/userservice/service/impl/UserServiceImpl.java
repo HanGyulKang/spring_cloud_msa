@@ -1,17 +1,23 @@
 package inflern.study.userservice.service.impl;
 
 import inflern.study.userservice.dto.ResponseDto;
+import inflern.study.userservice.dto.vo.OrderVo;
 import inflern.study.userservice.dto.vo.UserVo;
 import inflern.study.userservice.model.entity.User;
-import inflern.study.userservice.model.mapper.UserMapper;
+import inflern.study.userservice.dto.mapper.UserMapper;
 import inflern.study.userservice.repository.UserRepository;
 import inflern.study.userservice.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +29,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    private final RestTemplate restTemplate;
+    private final Environment env;
+
     @Override
     @Transactional
     public ResponseDto.ResponseUserDto createUser(UserVo.CreateUserItem dto) {
@@ -33,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
         User user = this.userMapper.mapToUserEntity(dto);
         User save = this.userRepository.save(user);
-        UserVo.UserItem userItem = this.userMapper.userEntityToMap(save);
+        UserVo.UserItem userItem = this.userMapper.mapToDto(save);
 
         return ResponseDto.ResponseUserDto.builder()
                 .user(userItem)
@@ -46,7 +55,20 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByUserId(userId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        UserVo.UserItem userItem = this.userMapper.userEntityToMap(user);
+        String orderUrl = String.format("http://%s:%s/%s/%s/%s",
+                env.getProperty("gateway.ip"),
+                env.getProperty("gateway.port"),
+                env.getProperty("order-service.url"),
+                userId,
+                env.getProperty("order-service.get-orders"));
+
+        ResponseEntity<List<OrderVo.OrderItem>> orderItemsResponse =
+                this.restTemplate.exchange(orderUrl, HttpMethod.GET, null,
+                        new ParameterizedTypeReference<List<OrderVo.OrderItem>>() {
+                });
+
+        List<OrderVo.OrderItem> orderItems = orderItemsResponse.getBody();
+        UserVo.UserItem userItem = this.userMapper.mapToDto(user, orderItems);
 
         return ResponseDto.ResponseUserDto.builder()
                 .user(userItem)
@@ -58,7 +80,7 @@ public class UserServiceImpl implements UserService {
     public ResponseDto.ResponseUsersDto getUserByAll() {
         List<UserVo.UserItem> users = this.userRepository.findAll()
                 .stream()
-                .map(this.userMapper::userEntityToMap)
+                .map(this.userMapper::mapToDto)
                 .toList();
 
         return ResponseDto.ResponseUsersDto.builder()
@@ -72,7 +94,7 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(email));
 
-        UserVo.UserItem userItem = this.userMapper.userEntityToMap(user);
+        UserVo.UserItem userItem = this.userMapper.mapToDto(user);
         return ResponseDto.ResponseUserDto.builder()
                 .user(userItem)
                 .build();
