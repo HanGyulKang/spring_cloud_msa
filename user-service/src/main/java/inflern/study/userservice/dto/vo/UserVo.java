@@ -1,6 +1,7 @@
 package inflern.study.userservice.dto.vo;
 
 import inflern.study.userservice.dto.RequestDto;
+import inflern.study.userservice.dto.external.order.OrderServiceDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -36,6 +37,6 @@ public class UserVo {
         private final String name;
         private final LocalDateTime createAt;
 
-        private final List<OrderVo.OrderItem> orders;
+        private final List<OrderServiceDto.OrderItem> orders;
     }
 }

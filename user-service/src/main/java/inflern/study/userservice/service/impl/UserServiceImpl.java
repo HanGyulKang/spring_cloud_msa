@@ -1,7 +1,7 @@
 package inflern.study.userservice.service.impl;
 
 import inflern.study.userservice.dto.ResponseDto;
-import inflern.study.userservice.dto.vo.OrderVo;
+import inflern.study.userservice.dto.external.order.OrderServiceDto;
 import inflern.study.userservice.dto.vo.UserVo;
 import inflern.study.userservice.model.entity.User;
 import inflern.study.userservice.dto.mapper.UserMapper;
@@ -62,12 +62,12 @@ public class UserServiceImpl implements UserService {
                 userId,
                 env.getProperty("order-service.get-orders"));
 
-        ResponseEntity<List<OrderVo.OrderItem>> orderItemsResponse =
+        ResponseEntity<List<OrderServiceDto.OrderItem>> orderItemsResponse =
                 this.restTemplate.exchange(orderUrl, HttpMethod.GET, null,
-                        new ParameterizedTypeReference<List<OrderVo.OrderItem>>() {
+                        new ParameterizedTypeReference<List<OrderServiceDto.OrderItem>>() {
                 });
 
-        List<OrderVo.OrderItem> orderItems = orderItemsResponse.getBody();
+        List<OrderServiceDto.OrderItem> orderItems = orderItemsResponse.getBody();
         UserVo.UserItem userItem = this.userMapper.mapToDto(user, orderItems);
 
         return ResponseDto.ResponseUserDto.builder()
