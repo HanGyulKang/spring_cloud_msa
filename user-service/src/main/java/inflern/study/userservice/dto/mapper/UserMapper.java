@@ -1,6 +1,6 @@
 package inflern.study.userservice.dto.mapper;
 
-import inflern.study.userservice.dto.vo.OrderVo;
+import inflern.study.userservice.dto.external.order.OrderServiceDto;
 import inflern.study.userservice.dto.vo.UserVo;
 import inflern.study.userservice.model.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class UserMapper {
                 .build();
     }
 
-    public UserVo.UserItem mapToDto(User user, List<OrderVo.OrderItem> orderItems) {
+    public UserVo.UserItem mapToDto(User user, List<OrderServiceDto.OrderItem> orderItems) {
         return UserVo.UserItem.builder()
                 .userId(user.getUserId())
                 .name(user.getName())
