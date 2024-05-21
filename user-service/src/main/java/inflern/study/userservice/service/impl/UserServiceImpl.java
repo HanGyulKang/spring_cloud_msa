@@ -55,9 +55,8 @@ public class UserServiceImpl implements UserService {
         User user = this.userRepository.findByUserId(userId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        String orderUrl = String.format("http://%s:%s/%s/%s/%s",
-                env.getProperty("gateway.ip"),
-                env.getProperty("gateway.port"),
+        String orderUrl = String.format("http://%s/%s/%s/%s",
+                env.getProperty("order-service.name"),
                 env.getProperty("order-service.url"),
                 userId,
                 env.getProperty("order-service.get-orders"));
